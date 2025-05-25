@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vignesh's Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(-45deg, #f8f9fa, #e9ecef, #dee2e6, #ced4da);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--dark);
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transform: translateY(-20px);
+            opacity: 0;
+            animation: slideDown 0.8s ease-out 0.2s forwards;
+        }
+        @keyframes slideDown {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary);
+            margin-bottom: 1rem;
+            transition: var(--transition);
+            filter: grayscale(20%);
+        }
+        .profile-img:hover {
+            transform: scale(1.05);
+            filter: grayscale(0%);
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
+        }
+        nav {
+            background-color: rgba(255, 255, 255, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(5px);
+            transition: var(--transition);
+        }
+        nav.scrolled {
+            background-color: rgba(44, 62, 80, 0.95);
+        }
+        nav.scrolled a {
+            color: white;
+        }
+        nav.scrolled a:hover, nav.scrolled a.active {
+            background-color: var(--primary);
+        }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 1rem 0;
+        }
+        nav ul li {
+            margin: 0 1rem;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        section {
+            padding: 3rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        section.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background: var(--primary);
+            bottom: -10px;
+            left: 25%;
+            border-radius: 3px;
+            transform: scaleX(0);
+            transition: transform 0.6s ease-out;
+        }
+        section.show .section-title::after {
+            transform: scaleX(1);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--primary);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        .card:hover::before {
+            transform: scaleY(1);
+        }
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .card:hover .card-img {
+            transform: scale(1.05);
+        }
+        .card-content {
+            padding: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        .card-title {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+        .card:hover .card-title {
+            color: var(--primary-dark);
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: var(--transition);
+            border: 2px solid var(--primary);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+        }
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        .btn:hover::before {
+            left: 100%;
+        }
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), #9b59b6, #e74c3c, var(--primary));
+            background-size: 400% 400%;
+            animation: gradientBG 5s ease infinite;
+        }
+        .social-links {
+            margin: 1rem 0;
+        }
+        .social-links a {
+            color: white;
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        .social-links a:hover {
+            color: var(--primary);
+            transform: translateY(-5px) scale(1.2);
+        }
+        /* Mobile Navigation */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 1rem;
+            transition: var(--transition);
+        }
+        .menu-toggle:hover {
+            color: var(--primary);
+        }
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                display: none;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.5s ease-out;
+            }
+            nav ul.show {
+                display: flex;
+                max-height: 500px;
+            }
+            nav ul li {
+                margin: 0.5rem 0;
+                text-align: center;
+                opacity: 0;
+                transform: translateY(-10px);
+                transition: opacity 0.3s ease, transform 0.3s ease;
+            }
+            nav ul.show li {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            nav ul.show li:nth-child(1) { transition-delay: 0.1s; }
+            nav ul.show li:nth-child(2) { transition-delay: 0.2s; }
+            nav ul.show li:nth-child(3) { transition-delay: 0.3s; }
+            nav ul.show li:nth-child(4) { transition-delay: 0.4s; }
+            nav ul.show li:nth-child(5) { transition-delay: 0.5s; }
+            .menu-toggle {
+                display: block;
+                text-align: center;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* About Section */
+        .about-content {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        /* Resume Section */
+        .resume-item {
+            background-color: white;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .resume-item:hover {
+            transform: translateX(10px);
+        }
+        .resume-item h3 {
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .resume-item h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+        .resume-item .date {
+            color: #7f8c8d;
+            font-style: italic;
+            margin: 0.5rem 0;
+        }
+        /* Contact Section */
+        #contact {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin: 2rem auto;
+            max-width: 1000px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="profile photo.jpg" class="profile-img">
+        <h1>VIGNESH NAGA TRINADH KALEPU</h1>
+        <p>Student | Electronics And Communication Engineering</p>
+    </header>
+    <nav>
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul id="nav-list">
+            <li><a href="#about" class="active">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#certificates">Certificates</a></li>
+            <li><a href="#resume">Resume</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <section id="about" class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Hello! I'm a passionate student currently pursuing my B.Tech in Electronics And Communication Engineering at Sagi Ramakrishnam Raju Engineering College with a CGPA of 8.69. I love learning new technologies and applying them to solve real-world problems.</p>
+                <p>My academic journey has equipped me with skills in Embedded Systems, VLSI, IoT, and more. I'm always looking for opportunities to grow and challenge myself.</p>
+                <p>When I'm not studying or working on projects, you can find me exploring new technologies, participating in hackathons, or contributing to open-source projects.</p>
+            </div>
+        </div>
+    </section>
+    <section id="projects" class="container">
+        <h2 class="section-title">My Projects</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="Medicine Reminder.png" alt="Medicine Reminder" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Medicine Reminder</h3>
+                    <p>An Arduino-based system with buzzer and LED alerts to remind patients to take their medication on time.</p>
+                    <a href="#" class="btn">View Project</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="Wireless ESP32 Communication.jpg" alt="Wireless ESP32 Communication" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Wireless ESP32 Communication</h3>
+                    <p>Implemented peer-to-peer communication between ESP32 devices using ESP-NOW protocol without Wi-Fi.</p>
+                    <a href="#" class="btn">View Project</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="IoT Weather Station.jpg" alt="IoT Weather Station" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">IoT Weather Station</h3>
+                    <p>Real-time environmental monitoring system that collects and displays temperature, humidity, and air quality data.</p>
+                    <a href="#" class="btn">View Project</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="certificates" class="container">
+        <h2 class="section-title">Certificates</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-content">
+                    <h3 class="card-title">TRANCE 2K23 Participation</h3>
+                    <p>Issued by: SRKR Engineering College</p>
+                    <p>Date: 25th March 2023</p>
+                    <p>Participated in the NEXUS Hardware Contest national level technical symposium</p>
+                    <a href="TRANCE 2K23.pdf" class="btn" target="_blank">View Certificate</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h3 class="card-title">CCNA: Introduction to Networks</h3>
+                    <p>Issued by: Cisco Networking Academy</p>
+                    <p>Date: 23rd February 2025</p>
+                    <p>Completed through SRKR Engineering College</p>
+                    <a href="cisco certificate.pdf" class="btn" target="_blank">View Certificate</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h3 class="card-title">Embedded Systems and Internet of Things”</h3>
+                    <p>Issued by: blackbuck</p>
+                    <p>Date: Completed</p>
+                    <p>Comprehensive course on Embedded Systems and Internet of Things</p>
+                    <a href="blackbuck internship.pdf" class="btn">View Certificate</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="resume" class="container">
+        <h2 class="section-title">My Resume</h2>
+        <div class="resume-item">
+            <h3>Education</h3>
+            <div class="date">2022 - 2026</div>
+            <p><strong>Sagi Ramakrishnam Raju Engineering College</strong> - B.Tech in Electronics And Communication Engineering</p>
+            <p>CGPA: 8.69 (Till 5th Semester)</p>
+            <div class="date">2020 - 2022</div>
+            <p><strong>Aditya Junior College</strong> - Intermediate (MPC)</p>
+            <p>Percentage: 93.6%</p>
+            <div class="date">2020</div>
+            <p><strong>Aditya School</strong> - 10th Standard</p>
+            <p>Percentage: 92.8%</p>
+        </div>
+        
+        <div class="resume-item">
+            <h3>Technical Skills</h3>
+            <p><strong>Programming Languages:</strong> Verilog, MATLAB, C, Python, VHDL</p>
+            <p><strong>Tools & Technologies:</strong> Embedded Systems, IoT, Arduino, ESP32, VLSI (Cadence Frontend & Backend), Wireshark, Vivado</p>
+            <p><strong>Soft Skills:</strong> Teamwork, Leadership, Problem-Solving, Critical Thinking, Fast Learning, Adaptability, Attention to Detail, Effective Communication, Time Management</p>
+        </div>
+        
+        <div class="resume-item">
+            <h3>Projects</h3>
+            <p><strong>Medicine Reminder (Arduino):</strong> Buzzer & LED alerts for medication</p>
+            <p><strong>Wireless ESP32 Communication (ESP-NOW):</strong> Peer-to-peer communication without Wi-Fi</p>
+            <p><strong>Object Counter (ESP32-CAM):</strong> Vision-based detection & count</p>
+            <p><strong>IoT Weather Station:</strong> Real-time environmental monitoring</p>
+            <p><strong>GPS Tracker:</strong> Live location tracking system</p>
+        </div>
+        
+        <div class="resume-item">
+            <h3>Internships</h3>
+            <div class="date">8 weeks</div>
+            <p><strong>Embedded Systems and IoT Intern</strong> - Blackbucks</p>
+            <ul>
+                <li>Worked on embedded & IoT projects using Arduino and ESP32</li>
+                <li>Developed practical solutions for real-world problems</li>
+                <li>Gained hands-on experience with various sensors and communication protocols</li>
+            </ul>
+        </div>
+        
+        <div class="resume-item">
+            <h3>Certifications</h3>
+            <p><strong>NPTEL</strong> – Electronic Devices and Circuits</p>
+            <p><strong>CISCO</strong> – Computer Networks (8 Weeks)</p>
+            <p><strong>CRUX</strong> – Project Expo Participation</p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="Vignesh resume.pdf" class="btn" download>Download Full Resume (PDF)</a>
+        </div>
+    </section>
+    <section id="contact" class="container">
+        <h2 class="section-title">Contact Me</h2>
+        <div style="text-align: center;">
+            <p>Feel free to reach out for collaborations or just to say hello!</p>
+            <p>Email: <a href="mailto:vigneshnagatrinadhkalepu@gmail.com">vigneshnagatrinadhkalepu@gmail.com</a></p>
+            <p>Phone: +91 7997119972</p>
+            <p>Address: Bhimavaram, Andhra Pradesh – 534204</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2025 Vignesh Naga Trinadh Kalepu. All rights reserved.</p>
+    </footer>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu').addEventListener('click', function() {
+            document.getElementById('nav-list').classList.toggle('show');
+            this.classList.toggle('active');
+        });
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // Update active class
+                document.querySelectorAll('nav ul li a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                this.classList.add('active');
+
+                // Close mobile menu after clicking
+                if (window.innerWidth <= 768) {
+                    document.getElementById('nav-list').classList.remove('show');
+                }
+            });
+        });
+        // Scroll animations
+        const sections = document.querySelectorAll('section');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.scrollY;
+            const nav = document.querySelector('nav');
+
+            if (scrollPosition > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+
+            // Update active link on scroll
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    document.querySelectorAll('nav ul li a').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
